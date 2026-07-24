@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../apiConfig';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LogOut, Plus, CheckCircle, Circle, Trash2, Calendar, 
@@ -50,7 +51,7 @@ export const Dashboard: React.FC = () => {
   const fetchTodos = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('/api/todos');
+      const res = await axios.get(`${API_BASE_URL}/api/todos`);
       setTodos(res.data);
     } catch (err: any) {
       setError('Failed to fetch tasks.');
@@ -65,7 +66,7 @@ export const Dashboard: React.FC = () => {
 
     setSubmitLoading(true);
     try {
-      const res = await axios.post('/api/todos', {
+      const res = await axios.post(`${API_BASE_URL}/api/todos`, {
         title: newTitle,
         description: newDesc || undefined,
         priority: newPriority,
@@ -86,7 +87,7 @@ export const Dashboard: React.FC = () => {
 
   const handleToggleComplete = async (todo: Todo) => {
     try {
-      const res = await axios.put(`/api/todos/${todo.id}`, {
+      const res = await axios.put(`${API_BASE_URL}/api/todos/${todo.id}`, {
         isCompleted: !todo.isCompleted,
       });
       setTodos(todos.map(t => t.id === todo.id ? res.data : t));
@@ -97,7 +98,7 @@ export const Dashboard: React.FC = () => {
 
   const handleDeleteTodo = async (id: string) => {
     try {
-      await axios.delete(`/api/todos/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/todos/${id}`);
       setTodos(todos.filter(t => t.id !== id));
     } catch (err) {
       setError('Failed to delete task.');
@@ -120,7 +121,7 @@ export const Dashboard: React.FC = () => {
     if (!editTitle.trim()) return;
 
     try {
-      const res = await axios.put(`/api/todos/${id}`, {
+      const res = await axios.put(`${API_BASE_URL}/api/todos/${id}`, {
         title: editTitle,
         description: editDesc || null,
         priority: editPriority,

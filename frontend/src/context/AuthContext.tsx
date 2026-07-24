@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../apiConfig';
 
 interface User {
   id: string;
@@ -25,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get('/api/auth/me');
+      const res = await axios.get(`${API_BASE_URL}/api/auth/me`);
       setUser(res.data.user);
     } catch (err) {
       setUser(null);
@@ -44,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     try {
-      await axios.post('/api/auth/logout');
+      await axios.post(`${API_BASE_URL}/api/auth/logout`);
     } catch (err) {
       console.error('Logout failed:', err);
     } finally {

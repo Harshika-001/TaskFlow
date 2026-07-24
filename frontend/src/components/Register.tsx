@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../apiConfig';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, Mail, Loader2, AlertCircle } from 'lucide-react';
@@ -37,7 +38,7 @@ export const Register: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await axios.post('/api/auth/register', {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
         email: data.email,
         password: data.password,
       });
